@@ -1,0 +1,14 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projets = await getCollection('projets');
+  return projets.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const { Content } = await render(p);
+---
+<h1>{p.data.titre}</h1>
+{p.data.repo && <a href={p.data.repo}>Voir le code</a>}
+<Content />
